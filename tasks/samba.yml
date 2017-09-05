@@ -1,0 +1,28 @@
+---
+# tasks file for welink.development @samba
+
+- name: Install SAMBA
+  apt:
+    name=samba
+    state=present
+
+- name: Configure SAMBA
+  copy:
+    src=smb.conf
+    dest=/etc/samba/smb.conf
+    owner=root
+    group=root
+    mode=0644
+  notify:
+    - restart samba
+
+- name: Check if SAMBA user is already created
+  shell: "pdbedit -L | grep {{ samba_user }}"
+  ignore_errors: yes
+  become: true
+  register: pdb
+
+- name: Create SAMBA user
+  shell: echo -e "{{ samba_pass }}\n{{ samba_pass }}" | smbpasswd -s -a "{{ samba_user }}"
+  become: true
+  when: pdb.rc != 0

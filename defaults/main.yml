@@ -1,0 +1,11 @@
+---
+# defaults file for welink.development
+samba_user: "vagrant"
+samba_pass: "vagrant"
+
+git_config_name: ""
+git_config_email: ""
+
+ssh_keys_user: "vagrant"
+ssh_keys_private_key_path: ""
+ssh_keys_public_key_path: ""

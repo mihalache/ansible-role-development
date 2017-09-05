@@ -1,0 +1,9 @@
+galaxy_info:
+  author: Adrian Mihalache
+  description: Developer aid role
+  company: Welink
+  license: license BSD
+  min_ansible_version: 1.9
+  galaxy_tags: []
+
+dependencies: []

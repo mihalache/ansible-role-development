@@ -1,0 +1,7 @@
+---
+# handlers file for welink.development
+
+  - name: restart samba
+    service:
+      name=smbd
+      state=restarted

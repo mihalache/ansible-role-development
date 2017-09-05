@@ -1,0 +1,14 @@
+---
+# tasks file for welink.development
+
+- include: ssh_keys.yml
+- include: samba.yml
+
+- name: Configure GIT
+  template:
+    src=gitconfig.j2
+    dest="/home/vagrant/.gitconfig"
+    owner=vagrant
+    group=vagrant
+    mode=0664
+  when: git_config_name or git_config_email
