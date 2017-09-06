@@ -19,10 +19,20 @@
 - name: Check if SAMBA user is already created
   shell: "pdbedit -L | grep {{ samba_user }}"
   ignore_errors: yes
-  become: true
   register: pdb
 
-- name: Create SAMBA user
-  shell: echo -e "{{ samba_pass }}\n{{ samba_pass }}" | smbpasswd -s -a "{{ samba_user }}"
-  become: true
+- name: Generate script for adding SAMBA user
+  template:
+    src=add_samba_user.j2
+    dest="/tmp/add_samba_user.sh"
+    mode=775
   when: pdb.rc != 0
+
+- name: Generate SAMBA user
+  shell: /tmp/add_samba_user.sh
+  when: pdb.rc != 0
+
+- name: Remove SAMBA user generating script
+  file:
+    path: /tmp/add_samba_user.sh
+    state: absent

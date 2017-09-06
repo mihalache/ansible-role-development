@@ -3,6 +3,8 @@
 
 - include: ssh_keys.yml
 - include: samba.yml
+  tags:
+    - samba
 
 - name: Configure GIT
   template:
