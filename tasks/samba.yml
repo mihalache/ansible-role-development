@@ -36,3 +36,17 @@
   file:
     path: /tmp/add_samba_user.sh
     state: absent
+
+- name: Add www-data user to vagrant group
+  user:
+      name: www-data
+      groups: vagrant
+      append: yes
+
+- name: Add permissions to Samba Shared Folder
+  file:
+    path: "{{ samba_shared_folder }}"
+    owner: "www-data"
+    group: "vagrant"
+    recurse: yes
+    mode: "a-rwx,ug+rwX,o+rX,g+s"
