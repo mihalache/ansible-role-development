@@ -6,47 +6,21 @@
     name=samba
     state=present
 
-- name: Configure SAMBA
-  copy:
-    src=smb.conf
-    dest=/etc/samba/smb.conf
-    owner=root
-    group=root
-    mode=0644
-  notify:
-    - restart samba
-
-- name: Check if SAMBA user is already created
-  shell: "pdbedit -L | grep {{ samba_user }}"
-  ignore_errors: yes
-  register: pdb
-
-- name: Generate script for adding SAMBA user
-  template:
-    src=add_samba_user.j2
-    dest="/tmp/add_samba_user.sh"
-    mode=775
-  when: pdb.rc != 0
-
-- name: Generate SAMBA user
-  shell: /tmp/add_samba_user.sh
-  when: pdb.rc != 0
-
-- name: Remove SAMBA user generating script
-  file:
-    path: /tmp/add_samba_user.sh
-    state: absent
-
-- name: Add www-data user to vagrant group
-  user:
-      name: www-data
-      groups: vagrant
-      append: yes
-
-- name: Add permissions to Samba Shared Folder
+- name: Ensuse Samba shared folder exists
   file:
     path: "{{ samba_shared_folder }}"
-    owner: "www-data"
-    group: "vagrant"
-    recurse: yes
-    mode: "a-rwx,ug+rwX,o+rX,g+s"
+    state: directory
+    owner: "{{ samba_shared_folder_owner }}"
+    group: "{{ samba_shared_folder_owner }}"
+    mode: 0775
+
+- name: Configure Samba
+  template:
+    src=smb.conf.j2
+    dest="/etc/samba/smb.conf"
+    owner=root
+    group=root
+    mode=0664
+  when: samba_shared_folder and samba_shared_folder_owner
+  notify:
+    - restart samba

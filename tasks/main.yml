@@ -1,7 +1,6 @@
 ---
 # tasks file for welink.development
 
-- include: ssh_keys.yml
 - include: samba.yml
   tags:
     - samba

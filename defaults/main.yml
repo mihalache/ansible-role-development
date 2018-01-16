@@ -1,13 +1,9 @@
 ---
-# defaults file for welink.development
-samba_user: "vagrant"
-samba_pass: "vagrant"
+# defaults file for ansible-role-development
+samba_share_name: "project"
+samba_shared_folder: "/var/www/"
+samba_shared_folder_owner: "vagrant"
 
 git_config_name: ""
 git_config_email: ""
 
-ssh_keys_user: "vagrant"
-ssh_keys_private_key_path: ""
-ssh_keys_public_key_path: ""
-
-samba_shared_folder: "/var/www"
