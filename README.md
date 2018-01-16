@@ -10,16 +10,15 @@ N/A
 
 Role Variables
 --------------
+```samba_share_name: project``` the name of the samba share (you will connect to the share with __\\\ip.address\share_name__)
 
-samba_user: "vagrant" - the user to use for samba (it must be a system user)
-samba_pass: "" - the password for samba (if empty, the password will be the same as the user)
+```samba_shared_folder: /var/www/``` the name of the shared folder (it will be created if not exists)
 
-git_config_email - the email to be set in GIT global configuration
-git_config_name - the name to be set in GIT global configuration
+```samba_shared_folder_owner: vagrant``` the name of the shared folder owner
 
-ssh_keys_user: "vagrant"
-ssh_keys_private_key_path: ""
-ssh_keys_public_key_path: ""
+```git_config_name: ""``` the name to be set in GIT global configuration
+
+```git_config_email: ""``` the email to be set in GIT global configuration
 
 Dependencies
 ------------
@@ -33,7 +32,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: all
       roles:
-         - { role: welink.development }
+         - { role: ansible-role-development }
 
 License
 -------
