@@ -1,9 +1,13 @@
 ---
 # tasks file for welink.development
 
-- include: samba.yml
+- import_tasks: samba.yml
   tags:
     - samba
+
+- fail:
+    msg: "GIT configuration not set. Please set 'git_config_name' and 'git_config_email' in your playbook variables."
+  when: not git_config_name or not git_config_email
 
 - name: Configure GIT
   template:
